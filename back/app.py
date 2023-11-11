@@ -24,9 +24,9 @@ if construct_db() is False:
     exit(1)
 
 # Populate the database
-# if populate_db() is False:
-#     print('\033[31m\033[1m' + "Error populating the tables" + '\033[30m\033[0m')
-#     exit(1)
+if populate_db() is False:
+    print('\033[31m\033[1m' + "Error populating the tables" + '\033[30m\033[0m')
+    exit(1)
 
 
 # Run the app

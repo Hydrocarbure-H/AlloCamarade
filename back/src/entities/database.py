@@ -115,7 +115,11 @@ class Database:
         Drop the database
         :return: None
         """
-        self.execute("DROP DATABASE IF EXISTS " + CONSTANTS.DB_NAME, cursorBuffered=False)
+        # Truncate each table
+        self.execute("SET FOREIGN_KEY_CHECKS = 0", cursorBuffered=False)
+        self.execute("DROP TABLE IF EXISTS `movies`", cursorBuffered=False)
+        self.execute("DROP TABLE IF EXISTS `theaters`", cursorBuffered=False)
+        self.execute("DROP TABLE IF EXISTS `users`", cursorBuffered=False)
 
     def create(self):
         """

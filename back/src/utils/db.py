@@ -13,6 +13,11 @@ def construct_db():
     """
     db = Database()
 
+    print("Dropping the database...")
+    # Drop the database
+    db.drop()
+
+    print("Creating the database...")
     # Create the database
     db.create()
 
@@ -22,9 +27,12 @@ def construct_db():
     except mysql.connector.Error as err:
         server_error("Can't use database " + CONSTANTS.DB_NAME + " : " + str(err), True)
 
+    print("Creating the users table...")
     users()
-    movies()
+    print("Creating the theaters table...")
     theaters()
+    print("Creating the movies table...")
+    movies()
 
     return API.SUCCESS
 
@@ -36,15 +44,10 @@ def movies():
     """
 
     db = Database()
+
     try:
         db.execute(
-            "DROP TABLE IF EXISTS `movies`;"
-            , cursorBuffered=False)
-    except mysql.connector.Error as err:
-        server_error("Can't drop movies table : " + str(err), True)
-    try:
-        db.execute(
-            "CREATE TABLE `movies` ("
+            "CREATE TABLE IF NOT EXISTS `movies` ("
             " `id` int NOT NULL AUTO_INCREMENT,"
             " `title` varchar(255) DEFAULT NULL,"
             " `duration` int NOT NULL,"
@@ -55,7 +58,9 @@ def movies():
             " `min_age` int NOT NULL,"
             " `start_date` date NOT NULL,"
             " `end_date` date NOT NULL,"
-            " PRIMARY KEY (`id`)"
+            "  `theater` int NOT NULL,"
+            " PRIMARY KEY (`id`),"
+            "  CONSTRAINT `movies_ibfk_1` FOREIGN KEY (`theater`) REFERENCES `theaters` (`id`)"
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"
             , cursorBuffered=False)
     except mysql.connector.Error as err:
@@ -73,13 +78,7 @@ def theaters():
     db = Database()
     try:
         db.execute(
-            "DROP TABLE IF EXISTS `theaters`;"
-            , cursorBuffered=False)
-    except mysql.connector.Error as err:
-        server_error("Can't drop theaters table : " + str(err), True)
-    try:
-        db.execute(
-            "CREATE TABLE `theaters` ("
+            "CREATE TABLE IF NOT EXISTS `theaters` ("
             " `id` int NOT NULL AUTO_INCREMENT,"
             " `name` varchar(255) DEFAULT NULL,"
             " `location` varchar(255) DEFAULT NULL,"
@@ -101,13 +100,7 @@ def users():
     db = Database()
     try:
         db.execute(
-            "DROP TABLE IF EXISTS `users`;"
-            , cursorBuffered=False)
-    except mysql.connector.Error as err:
-        server_error("Can't drop users table : " + str(err), True)
-    try:
-        db.execute(
-            "CREATE TABLE `users` ("
+            "CREATE TABLE IF NOT EXISTS `users` ("
             " `id` int NOT NULL AUTO_INCREMENT,"
             " `username` varchar(255) DEFAULT NULL,"
             " `password` varchar(64) DEFAULT NULL,"
@@ -121,26 +114,70 @@ def users():
     return True
 
 
+def pop_theaters(db):
+    """
+    Populate the theaters table
+    :param db:
+    :return:
+    """
+
+    try:
+        db.execute(
+            "INSERT INTO `theaters` VALUES "
+            "(1,'Theater 1','Location 1'),"
+            "(2,'Theater 2','Location 2'),"
+            "(3,'Theater 3','Location 3');"
+            , cursorBuffered=False)
+    except mysql.connector.Error as err:
+        server_error("Can't populate theaters table : " + str(err), True)
+
+    return True
+
+
+def pop_users(db):
+    """
+    Populate the users table
+    :param db:
+    :return:
+    """
+
+    try:
+        db.execute(
+            "INSERT INTO `users` VALUES "
+            "(1,'user','HAHAHANOTHASHED',0),"
+            "(2,'admin','HAHAHANOTHASHED',1);"
+            , cursorBuffered=False)
+    except mysql.connector.Error as err:
+        server_error("Can't populate users table : " + str(err), True)
+
+    return True
+
+
 def populate_db():
     """
     Populate the database (insert data inside)
     """
     db = Database()
+    pop_theaters(db)
     pop_movies(db)
+    pop_users(db)
 
     return True
 
 
 def pop_movies(db):
     """
-    Populate the users table
+    Populate the movies table
     """
 
-    # try:
-    #     db.execute(
-    #         "INSERT INTO ... VALUES ... "
-    #         , cursorBuffered=False)
-    # except mysql.connector.Error as err:
-    #     server_error("Can't populate users table : " + str(err), True)
+    try:
+        db.execute(
+            "INSERT INTO `movies` VALUES "
+            "(1,'Movie 1',120,'French','English','Director 1','Actor 1',12,'2020-01-01','2020-01-02',1),"
+            "(2,'Movie 2',120,'French','English','Director 2','Actor 2',12,'2020-01-01','2020-01-02',2),"
+            "(3,'Movie 3',120,'French','English','Director 3','Actor 3',12,'2020-01-01','2020-01-02',3);"
+            , cursorBuffered=False)
+    except mysql.connector.Error as err:
+        server_error("Can't populate movies table : " + str(err), True)
 
     return True
