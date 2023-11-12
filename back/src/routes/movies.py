@@ -1,18 +1,43 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
+from src.entities.movie import Movie
 from src.strings import API
 from src.utils.utils import response
 
-# The route name that we will use in app.py
-route = Blueprint('route1', __name__)
+route = Blueprint('movies', __name__)
 
 
-# Try to connect to http://localhost:5000/route1/helloworld :)
-@route.route('/route1/helloworld', methods=['GET'])
-def helloworld():
+@route.route('/movies/add', methods=['POST'])
+def add_movies():
     """
-    Say hello to the world
+    Add movies
     :return:
     """
-    print("You are in the route1/helloworld route !")
-    return response(API.SUCCESS, "Hello world !")
+
+    # get data from request
+    # check if data is valid
+    # add data to database
+
+    data = {
+        "title": "Hello world !",
+        "duration": 120,
+        "language": "English",
+        "subtitles": "French",
+        "director": "John Doe",
+        "actors": "John Doe, Jane Doe",
+        "min_age": 12,
+        "start_date": "2020-01-01",
+        "end_date": "2020-01-01",
+        "theater": 1
+    }
+
+    # data = request.get_json()
+    # if data is None:
+    #     return response(API.ERROR, "Invalid data")
+
+    # Add the movie to the database
+    movie = Movie(data)
+    if not movie.add():
+        return response(API.BAD_REQUEST, "Can't add movie")
+
+    return response(API.SUCCESS, "OK")

@@ -1,5 +1,3 @@
-import sys
-
 from flask import Flask
 from flask_cors import CORS
 
@@ -15,10 +13,9 @@ CORS(app, resources={r"/*": {"origins": "*"}},
                     "Access-Control-Allow-Headers", "x-access-token", "Origin", "Accept", "X-Requested-With",
                     "Access-Control-Request-Method", "Access-Control-Request-Headers"])
 
-# Register the route route1. Check on src/routes/movies.py
 app.register_blueprint(route1)
 
-# Create the database (if drop=True, it will drop the tables before creating them)
+# Create the database
 if construct_db() is False:
     print('\033[31m\033[1m' + "Error creating the tables" + '\033[30m\033[0m')
     exit(1)
