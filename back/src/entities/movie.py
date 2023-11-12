@@ -21,6 +21,10 @@ class Movie:
         self.theater = data["theater"]
 
     def add(self):
+        """
+        Add the movie to the database
+        :return:
+        """
         db = Database()
         try:
             db.execute(
@@ -51,3 +55,18 @@ class Movie:
             return False
 
         return True
+
+    @staticmethod
+    def get_all():
+        """
+        Get all movies
+        :return:
+        """
+        db = Database()
+        try:
+            db.execute("SELECT * FROM movies;")
+        except mysql.connector.Error as err:
+            server_error("Can't get movies : " + str(err), True)
+            return False
+
+        return db.cursor.fetchall()

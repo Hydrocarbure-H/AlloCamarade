@@ -41,3 +41,16 @@ def add_movies():
         return response(API.BAD_REQUEST, "Can't add movie")
 
     return response(API.SUCCESS, "OK")
+
+
+@route.route('/movies/get', methods=['GET'])
+def get_movies():
+    """
+    Get movies
+    :return:
+    """
+
+    # Get the movies from the database
+    movies = Movie.get_all()
+
+    return response(API.SUCCESS, movies)
