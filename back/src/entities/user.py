@@ -1,7 +1,6 @@
 import hashlib
 
 from src.entities.database import Database
-from passlib.hash import sha256_crypt
 
 
 class User:
@@ -35,6 +34,11 @@ class User:
         return False
 
     def check_password(self, hashed_password):
+        """
+        Check if the password is correct
+        :param hashed_password:
+        :return:
+        """
 
         sha256_hash = hashlib.sha256()
         sha256_hash.update(self.password.encode("utf-8"))

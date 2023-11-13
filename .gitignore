@@ -167,3 +167,7 @@ back/.idea/modules.xml
 back/.idea/vcs.xml
 back/src/constants.py
 back/.idea/dataSources.xml
+front/.idea/front.iml
+front/.idea/inspectionProfiles/Project_Default.xml
+front/.idea/modules.xml
+front/.idea/vcs.xml

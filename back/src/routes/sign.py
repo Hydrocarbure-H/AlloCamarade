@@ -1,5 +1,6 @@
 # The login and register routes will be here.
 from flask import Blueprint, request
+from flask_jwt_extended import create_access_token
 
 from src.entities.movie import Movie
 from src.entities.user import User
@@ -35,7 +36,8 @@ def login():
     if not user.login():
         return response(API.BAD_REQUEST, "Incorrect username or password.")
 
-    return response(API.SUCCESS, "OK")
+    token = create_access_token(identity=user.username)
+    return response(API.SUCCESS, token)
 
 
 @route.route('/movies/get', methods=['GET'])
