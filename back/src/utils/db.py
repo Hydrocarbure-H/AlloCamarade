@@ -124,9 +124,9 @@ def pop_theaters(db):
     try:
         db.execute(
             "INSERT INTO `theaters` VALUES "
-            "(1,'Theater 1','Location 1'),"
-            "(2,'Theater 2','Location 2'),"
-            "(3,'Theater 3','Location 3');"
+            "(1,'Les folies bergères','Paris'),"
+            "(2,'Grand Ecran','Limoges'),"
+            "(3,'Le Grand Rex','Paris');"
             , cursorBuffered=False)
     except mysql.connector.Error as err:
         server_error("Can't populate theaters table : " + str(err), True)
