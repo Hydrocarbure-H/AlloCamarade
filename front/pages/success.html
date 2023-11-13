@@ -2,9 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/success.css">
+  <title>Success Page</title>
 </head>
 <body>
-$END$
+<div class="success-container">
+  <h1>Movie Posted Successfully!</h1>
+
+  <div class="buttons-container">
+    <a href="list.html" class="btn">See List</a>
+    <button onclick="goBack()" class="btn">Add Another</button>
+  </div>
+</div>
+
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
 </body>
 </html>

@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.response === "OK") {
                     // Movie posted successfully, you can perform additional actions
                     console.log('Movie posted successfully!');
+                    window.location.href = 'success.html';
                 } else {
                     errorMessage.innerText = 'Failed to post movie. Please check the form data.';
                     errorMessage.style.color = 'red';
