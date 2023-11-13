@@ -1,3 +1,5 @@
+import hashlib
+
 from src.entities.database import Database
 from passlib.hash import sha256_crypt
 
@@ -9,7 +11,7 @@ class User:
 
     def __init__(self, data):
         self.username = data['username']
-        self.password = sha256_crypt.using(rounds=5000).hash(data['password'])
+        self.password = data['password']
 
     def login(self):
         """
@@ -19,15 +21,23 @@ class User:
         db = Database()
         db.connect()
 
-        query = "SELECT password FROM users WHERE username = %s AND password = %s"
-        params = (self.username, self.password)
-        result = db.execute(query, params)
+        query = "SELECT password FROM users WHERE username = %s"
+        params = (self.username,)
+        result = db.execute_one(query, params)
 
         if result is None:
             return False
 
         else:
-            if sha256_crypt.verify(self.password, result[0][0]):
+            if self.check_password(result[0]):
                 return True
 
         return False
+
+    def check_password(self, hashed_password):
+
+        sha256_hash = hashlib.sha256()
+        sha256_hash.update(self.password.encode("utf-8"))
+        computed_hash = sha256_hash.hexdigest()
+
+        return computed_hash == hashed_password

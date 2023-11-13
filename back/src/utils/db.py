@@ -103,7 +103,7 @@ def users():
             "CREATE TABLE IF NOT EXISTS `users` ("
             " `id` int NOT NULL AUTO_INCREMENT,"
             " `username` varchar(255) DEFAULT NULL,"
-            " `password` varchar(64) DEFAULT NULL,"
+            " `password` varchar(255) DEFAULT NULL,"
             " `admin` tinyint NOT NULL DEFAULT '0',"
             " PRIMARY KEY (`id`)"
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;"
@@ -144,8 +144,8 @@ def pop_users(db):
     try:
         db.execute(
             "INSERT INTO `users` VALUES "
-            "(1,'user','HAHAHANOTHASHED',0),"
-            "(2,'admin','HAHAHANOTHASHED',1);"
+            "(1,'john_doe','5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',0),"
+            "(2,'admin','5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',1);"
             , cursorBuffered=False)
     except mysql.connector.Error as err:
         server_error("Can't populate users table : " + str(err), True)

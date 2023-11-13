@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 from src.utils.db import construct_db, populate_db
 from src.routes.movies import route as route1
+from src.routes.sign import route as route2
 
 app = Flask(__name__)
 
@@ -14,6 +15,7 @@ CORS(app, resources={r"/*": {"origins": "*"}},
                     "Access-Control-Request-Method", "Access-Control-Request-Headers"])
 
 app.register_blueprint(route1)
+app.register_blueprint(route2)
 
 # Create the database
 if construct_db() is False:

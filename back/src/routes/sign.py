@@ -6,7 +6,7 @@ from src.entities.user import User
 from src.strings import API
 from src.utils.utils import response
 
-route = Blueprint('movies', __name__)
+route = Blueprint('user', __name__)
 
 
 @route.route('/user/login', methods=['POST'])
@@ -20,14 +20,14 @@ def login():
     # check if data is valid
     # add data to database
 
-    data = {
-        "username": "john_doe",
-        "password": "password"
-    }
+    # data = {
+    #     "username": "john_doe",
+    #     "password": "password"
+    # }
 
-    # data = request.get_json()
-    # if data is None:
-    #     return response(API.ERROR, "Invalid data")
+    data = request.get_json()
+    if data is None:
+        return response(API.UNAUTHORIZED, "Invalid data")
 
     # Create the user and check if the login is correct
     user = User(data)
