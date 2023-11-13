@@ -35,7 +35,14 @@ def get_movies():
     :return:
     """
 
-    # Get the movies from the database
-    movies = Movie.get_all()
+    # Get the location from the request
+    location = request.args.get('location')
+
+    if location is None or location == "" or location == "all":
+        # Get the movies from the database
+        movies = Movie.get_all()
+    else:
+        # Get the movies from the database
+        movies = Movie.get_all(location)
 
     return response(API.SUCCESS, movies)

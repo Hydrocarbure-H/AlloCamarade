@@ -57,20 +57,34 @@ class Movie:
         return True
 
     @staticmethod
-    def get_all():
+    def get_all(location=None):
         """
         Get all movies
         :return:
         """
-        db = Database()
-        try:
-            db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
-                       "movies.subtitles,"
-                       "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
-                       "theaters.location "
-                       "FROM movies INNER JOIN theaters ON movies.theater = theaters.id")
-        except mysql.connector.Error as err:
-            server_error("Can't get movies : " + str(err), True)
-            return False
+
+        if location is None:
+            db = Database()
+            try:
+                db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                           "movies.subtitles,"
+                           "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
+                           "theaters.location "
+                           "FROM movies INNER JOIN theaters ON movies.theater = theaters.id")
+            except mysql.connector.Error as err:
+                server_error("Can't get movies : " + str(err), True)
+                return False
+        else:
+            db = Database()
+            try:
+                db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                           "movies.subtitles,"
+                           "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
+                           "theaters.location "
+                           "FROM movies INNER JOIN theaters ON movies.theater = theaters.id WHERE theaters.location = "
+                           "%s", (location,))
+            except mysql.connector.Error as err:
+                server_error("Can't get movies : " + str(err), True)
+                return False
 
         return db.cursor.fetchall()
