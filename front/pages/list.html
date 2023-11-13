@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/list.css">
+    <title>List of Movies</title>
+</head>
+<body>
+<div class="list-container">
+    <button class="login-button" onclick="window.location.href = 'index.html'">Login</button>
+
+    <h1>List of Movies</h1>
+
+    <form id="filter-form">
+        <label for="location">Filter by Location (City):</label>
+        <input type="text" id="location" name="location" placeholder="Enter the city">
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <div id="movie-list"></div>
+
+    <script src="../scripts/list.js"></script>
+</div>
+</body>
+</html>

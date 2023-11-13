@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/add.css">
+  <title>Movie Theater Dashboard</title>
+</head>
+<body>
+<div class="dashboard-container">
+  <h1>Welcome, Movie Theater Owner!</h1>
+
+  <!-- Movie Posting Form -->
+  <div class="movie-form-container">
+    <h2>Post New Movie</h2>
+    <form id="movie-post-form">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="duration">Duration (minutes):</label>
+      <input type="number" id="duration" name="duration" required>
+
+      <label for="language">Language:</label>
+      <input type="text" id="language" name="language" required>
+
+      <label for="subtitles">Subtitles:</label>
+      <input type="text" id="subtitles" name="subtitles">
+
+      <label for="director">Director:</label>
+      <input type="text" id="director" name="director" required>
+
+      <label for="actors">Main Actors:</label>
+      <input type="text" id="actors" name="actors" required>
+
+      <label for="min-age">Minimum Age Required:</label>
+      <input type="number" id="min-age" name="min-age" required>
+
+      <label for="start-date">Start Date:</label>
+      <input type="date" id="start-date" name="start-date" required>
+
+      <label for="end-date">End Date:</label>
+      <input type="date" id="end-date" name="end-date" required>
+
+      <button type="submit">Post Movie</button>
+    </form>
+    <p id="error-message"></p>
+  </div>
+</div>
+<script src="../scripts/add.js"></script>
+</body>
+</html>
