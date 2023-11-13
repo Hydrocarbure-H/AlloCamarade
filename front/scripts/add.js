@@ -12,11 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const directorField = document.getElementById('director');
         const actorsField = document.getElementById('actors');
         const minAgeField = document.getElementById('min-age');
-        const cityField = document.getElementById('city');
         const startDateField = document.getElementById('start-date');
         const endDateField = document.getElementById('end-date');
-        const daysPerWeekField = document.getElementById('days-per-week');
-        const startTimeField = document.getElementById('start-time');
 
         const title = titleField.value;
         const duration = durationField.value;
@@ -25,11 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const director = directorField.value;
         const actors = actorsField.value;
         const minAge = minAgeField.value;
-        const city = cityField.value;
         const startDate = startDateField.value;
         const endDate = endDateField.value;
-        const daysPerWeek = daysPerWeekField.value;
-        const startTime = startTimeField.value;
 
         const requestData = {
             title: title,
@@ -39,10 +33,8 @@ document.addEventListener('DOMContentLoaded', function () {
             director: director,
             actors: actors,
             min_age: minAge,
-            city: city,
             start_date: startDate,
             end_date: endDate,
-            start_ime: startTime
         };
 
         const token = localStorage.getItem('token');
@@ -57,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('http://127.0.0.1:5000/movies/add', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json; charset=UTF-8',
                 'Authorization': 'Bearer ' + token
             },
             body: JSON.stringify(requestData)
         })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
+                if (data.response === "OK") {
                     // Movie posted successfully, you can perform additional actions
                     console.log('Movie posted successfully!');
                 } else {

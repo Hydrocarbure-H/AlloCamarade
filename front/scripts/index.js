@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.response === "OK") {
                     // Store the token in local storage
                     localStorage.setItem('token', data.content);
+                    // Redirect to the home page
+                    window.location.href = 'add.html';
                 } else {
                     errorMessage.innerText = 'Login failed. Please check your credentials.';
                     errorMessage.style.color = 'red';
