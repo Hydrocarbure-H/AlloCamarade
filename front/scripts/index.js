@@ -24,16 +24,23 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify(requestData)
         })
             .then(response => response.json())
-            .then(data => {
+            .then(data =>
+            {
                 console.log(data);
-                if (data.response === "OK") {
-                    // Store the token in local storage
-                    localStorage.setItem('token', data.content);
-                    // Redirect to the home page
-                    window.location.href = 'add.html';
-                } else {
-                    errorMessage.innerText = 'Login failed. Please check your credentials.';
-                    errorMessage.style.color = 'red';
+                if (data.response === "OK")
+                {
+                    if (data.content !== "Incorrect username or password.")
+                    {
+                        // Store the token in local storage
+                        localStorage.setItem('token', data.content);
+                        // Redirect to the home page
+                        window.location.href = 'add.html';
+                    }
+                    else
+                    {
+                        errorMessage.innerText = 'Login failed. Please check your credentials.';
+                        errorMessage.style.color = 'red';
+                    }
                 }
             })
             .catch(error => {
