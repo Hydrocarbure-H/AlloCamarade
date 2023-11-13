@@ -64,7 +64,11 @@ class Movie:
         """
         db = Database()
         try:
-            db.execute("SELECT * FROM movies;")
+            db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                       "movies.subtitles,"
+                       "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
+                       "theaters.location "
+                       "FROM movies INNER JOIN theaters ON movies.theater = theaters.id")
         except mysql.connector.Error as err:
             server_error("Can't get movies : " + str(err), True)
             return False

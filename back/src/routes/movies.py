@@ -16,23 +16,6 @@ def add_movies():
     :return:
     """
 
-    # get data from request
-    # check if data is valid
-    # add data to database
-    #
-    # data = {
-    #     "title": "Hello world !",
-    #     "duration": 120,
-    #     "language": "English",
-    #     "subtitles": "French",
-    #     "director": "John Doe",
-    #     "actors": "John Doe, Jane Doe",
-    #     "min_age": 12,
-    #     "start_date": "2020-01-01",
-    #     "end_date": "2020-01-01",
-    #     "theater": 1
-    # }
-
     data = request.get_json()
     if data is None:
         return response(API.BAD_REQUEST, "Invalid data")
