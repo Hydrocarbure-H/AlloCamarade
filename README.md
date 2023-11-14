@@ -16,7 +16,8 @@ Improve Back.
 - List Theaters is not available and not implemented
 - No ORM used, only SQL requests on the top
 - No MVC used for displaying result from database
-- Add the Date Available feature processed on the Back and not on as currently on the front.
+- Add the Date Available feature processed on the Back and not on as currently on the front
+- Add data content verification
 
 # Important notes (Back)
 - JWT authentication working perfectly, with multiple handles for different use-case.
