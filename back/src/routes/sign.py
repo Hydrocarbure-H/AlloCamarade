@@ -18,13 +18,6 @@ def login():
     """
 
     # get data from request
-    # check if data is valid
-    # add data to database
-
-    # data = {
-    #     "username": "john_doe",
-    #     "password": "password"
-    # }
 
     data = request.get_json()
     if data is None:
@@ -39,15 +32,3 @@ def login():
     token = create_access_token(identity=user.username)
     return response(API.SUCCESS, token)
 
-
-@route.route('/movies/get', methods=['GET'])
-def get_movies():
-    """
-    Get movies
-    :return:
-    """
-
-    # Get the movies from the database
-    movies = Movie.get_all()
-
-    return response(API.SUCCESS, movies)
