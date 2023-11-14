@@ -13,6 +13,7 @@ from src.utils.utils import response
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "incredible-secret-key"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+
 jwt = JWTManager(app)
 
 CORS(app, resources={r"/*": {"origins": "*"}},
