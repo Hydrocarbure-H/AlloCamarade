@@ -57,10 +57,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     <p>Director: ${movie[5]}</p>
                     <p>Main Actors: ${movie[6]}</p>
                     <p>Min Age: ${movie[7]}</p>
-                    <p>Start Date: ${movie[8]}</p>
-                    <p>End Date: ${movie[9]}</p>
                     <p>City: ${movie[10]}</p>
                 `;
+
+                movieListContainer.appendChild(movieItem);
+            }
+            else
+            {
+                movieItem.innerHTML = `
+                    <h2>${movie[1]}</h2>
+                    <p>Duration: ${movie[2]} minutes</p>
+                    <p>Language: ${movie[3]}</p>
+                    <p>Director: ${movie[5]}</p>
+                    <p>Main Actors: ${movie[6]}</p>
+                    <p>Min Age: ${movie[7]}</p>
+                    <p>Not available</p>
+                `;
+                movieItem.style.color = 'grey';
 
                 movieListContainer.appendChild(movieItem);
             }
