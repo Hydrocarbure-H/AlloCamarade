@@ -174,8 +174,8 @@ def pop_movies(db):
         db.execute(
             "INSERT INTO `movies` VALUES "
             "(1,'Movie 1',120,'French','English','Director 1','Actor 1',12,'2023-10-19','2023-12-19',1),"
-            "(2,'Movie 2',120,'French','English','Director 2','Actor 2',12,'2024-11-19','2025-12-19',2),"
-            "(3,'Movie 3',120,'French','English','Director 3','Actor 3',12,'2023-10-19','2023-12-19',3);"
+            "(2,'Movie 2',120,'French','English','Director 2','Actor 2',12,'2024-11-19','2025-12-19',3),"
+            "(3,'Movie 3',120,'French','English','Director 3','Actor 3',12,'2023-10-19','2023-12-19',2);"
             , cursorBuffered=False)
     except mysql.connector.Error as err:
         server_error("Can't populate movies table : " + str(err), True)
