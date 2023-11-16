@@ -140,35 +140,28 @@ class Movie:
         :return:
         """
         db = Database()
-        res = None
-        try:
-            if location is None:
-               res = db.execute("SELECT * FROM movies", DEBUG=True)
-        except mysql.connector.Error as err:
-            server_error("Can't get movies : " + str(err), True)
-            return False
 
-        # if location is None:
-        #     try:
-        #         res = db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
-        #                          "movies.subtitles,"
-        #                          "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
-        #                          "theaters.location "
-        #                          "FROM movies INNER JOIN theaters ON movies.theater = theaters.id")
-        #     except mysql.connector.Error as err:
-        #         server_error("Can't get movies : " + str(err), True)
-        #         return False
-        # else:
-        #     try:
-        #         res = db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
-        #                          "movies.subtitles,"
-        #                          "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
-        #                          "theaters.location "
-        #                          "FROM movies INNER JOIN theaters ON movies.theater = theaters.id WHERE "
-        #                          "theaters.location ="
-        #                          "%s", (location,))
-        #     except mysql.connector.Error as err:
-        #         server_error("Can't get movies : " + str(err), True)
-        #         return False
+        if location is None:
+            try:
+                res = db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                                 "movies.subtitles,"
+                                 "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
+                                 "theaters.location "
+                                 "FROM movies INNER JOIN theaters ON movies.theater = theaters.id", cursorBuffered=False, commit=True)
+            except mysql.connector.Error as err:
+                server_error("Can't get movies : " + str(err), True)
+                return False
+        else:
+            try:
+                res = db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                                 "movies.subtitles,"
+                                 "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
+                                 "theaters.location "
+                                 "FROM movies INNER JOIN theaters ON movies.theater = theaters.id WHERE "
+                                 "theaters.location ="
+                                 "%s", (location,), cursorBuffered=False, commit=True)
+            except mysql.connector.Error as err:
+                server_error("Can't get movies : " + str(err), True)
+                return False
 
         return res
