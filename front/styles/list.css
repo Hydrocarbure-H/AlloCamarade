@@ -45,6 +45,7 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .login-button {
@@ -57,6 +58,10 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 /* Customize styles based on your needs */
+.btn:hover {
+    background-color: #0056b3;
+}

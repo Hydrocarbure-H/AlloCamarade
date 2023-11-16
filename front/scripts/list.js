@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterForm = document.getElementById('filter-form');
     const locationField = document.getElementById('location');
 
+    fetchAndDisplayMovies("");
+
+
     // Check if the user is already logged in
     const token = localStorage.getItem('token');
     if (token !== null) {
@@ -32,12 +35,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 } else {
                     console.error('Error:', data.response);
-                    // Handle error, display a message or redirect
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                // Handle error, display a message or redirect
             });
     }
 
@@ -48,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchAndDisplayMovies(location);
     });
 
-    // Function to display movies
+    /**
+     * Function to display movies
+     * @param movies
+     */
     function displayMovies(movies) {
         const movieListContainer = document.getElementById('movie-list');
         movieListContainer.innerHTML = ''; // Clear previous content
@@ -95,6 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    /**
+     * Function to display movies in modify mode
+     * @param movies
+     */
     function displayMoviesModify(movies) {
         const movieListContainer = document.getElementById('movie-list');
         movieListContainer.innerHTML = ''; // Clear previous content
@@ -116,19 +124,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 <input type="text" id="end_date${movie[0]}" name="end_date" placeholder="End Date" value="${movie[9]}">
                 <input type="text" id="city${movie[0]}" name="city" placeholder="City" value="${movie[10]}">
                 <button id="update${movie[0]}" name="update${movie[0]}">Update</button>
+                <button id="delete${movie[0]}" name="delete${movie[0]}">Delete</button>
             `;
 
             movieListContainer.appendChild(movieItem);
 
             const updateButton = document.getElementById('update' + movie[0]);
-            updateButton.addEventListener('click',myFunc);
+            updateButton.addEventListener('click',Update);
             updateButton.movieItem = movieItem;
             updateButton.movie = movie;
+
+            const deleteButton = document.getElementById('delete' + movie[0]);
+            deleteButton.addEventListener('click',Delete);
+            deleteButton.movieItem = movieItem;
+            deleteButton.movie = movie;
         });
     }
 });
 
-function myFunc(event, m) {
+/**
+ * Update a movie
+ * @param event
+ * @param m
+ * @constructor
+ */
+function Update(event, m) {
 
     event.preventDefault();
     m = event.currentTarget.movie;
@@ -180,4 +200,44 @@ function myFunc(event, m) {
                 alert('Error2:' + error);
             }
         );
+}
+
+/**
+ * Delete movie
+ * @param event
+ * @param m
+ * @constructor
+ */
+function Delete(event, m) {
+
+        event.preventDefault();
+        m = event.currentTarget.movie;
+
+        const id = event.currentTarget.movieItem.querySelector('span').getAttribute('data-id');
+
+        let movie = {
+            id: id
+        };
+
+        fetch('http://127.0.0.1:5000/movies/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(movie)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.response === 'OK') {
+                    // Redirect to list page
+                    window.location.href = 'list.html?modify=true&deleted=true';
+                } else {
+                    alert('Error1:' + data.response);
+                }
+            }
+            )
+            .catch(error => {
+                    alert('Error2:' + error);
+                }
+            );
 }
