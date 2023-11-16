@@ -14,7 +14,16 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.response === 'OK') {
-                    displayMovies(data.content);
+                    // check if modify=true in url
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const modify = urlParams.get('modify');
+                    if (modify === 'true') {
+                        displayMoviesModify(data.content);
+                    }
+                    else
+                    {
+                        displayMovies(data.content);
+                    }
                 } else {
                     console.error('Error:', data.response);
                     // Handle error, display a message or redirect
@@ -77,6 +86,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 movieListContainer.appendChild(movieItem);
             }
+        });
+    }
+
+    function displayMoviesModify(movies) {
+        const movieListContainer = document.getElementById('movie-list');
+        movieListContainer.innerHTML = ''; // Clear previous content
+
+        movies.forEach(movie => {
+            const movieItem = document.createElement('div');
+            movieItem.classList.add('movie-item');
+
+            movieItem.innerHTML = `
+            <h2>${movie[1]}</h2>
+            <input type="text" id="title" name="title" placeholder="Title" value="${movie[1]}">
+            <input type="text" id="duration" name="duration" placeholder="Duration" value="${movie[2]}">
+            <input type="text" id="language" name="language" placeholder="Language" value="${movie[3]}">
+            <input type="text" id="director" name="director" placeholder="Director" value="${movie[5]}">
+            <input type="text" id="main_actors" name="main_actors" placeholder="Main Actors" value="${movie[6]}">
+            <input type="text" id="min_age" name="min_age" placeholder="Min Age" value="${movie[7]}">
+            <input type="text" id="start_date" name="start_date" placeholder="Start Date" value="${movie[8]}">
+            <input type="text" id="end_date" name="end_date" placeholder="End Date" value="${movie[9]}">
+            <input type="text" id="city" name="city" placeholder="City" value="${movie[10]}">
+            <button id="update" name="update" type="submit">Update</button>
+            `;
+
+            movieListContainer.appendChild(movieItem);
         });
     }
 });
