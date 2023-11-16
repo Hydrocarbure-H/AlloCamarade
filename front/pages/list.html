@@ -8,14 +8,14 @@
 </head>
 <body>
 <div class="list-container">
-    <button class="login-button" onclick="window.location.href = 'index.html'">Login</button>
+    <button id="login-button" class="login-button" onclick="window.location.href = 'index.html'">Login</button>
 
-    <h1>List of Movies (currenty available)</h1>
+    <h1>AlloCamarade</h1>
 
     <form id="filter-form">
         <label for="location">Filter by Location (City):</label>
         <input type="text" id="location" name="location" placeholder="Enter the city">
-        <button type="submit">Apply Filter</button>
+        <button type="submit" class="btn">Apply Filter</button>
     </form>
 
     <div id="movie-list"></div>

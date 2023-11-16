@@ -28,6 +28,45 @@ def add_movies():
     return response(API.SUCCESS, "OK")
 
 
+@jwt_required
+@route.route('/movies/delete', methods=['DELETE'])
+def del_movies():
+    """
+    Add movies
+    :return:
+    """
+
+    data = request.get_json()
+    if data is None:
+        return response(API.BAD_REQUEST, "Invalid data")
+
+    # Add the movie to the database
+    movie = Movie(id=data["id"])
+    if not movie.delete():
+        return response(API.BAD_REQUEST, "Can't delete movie")
+
+    return response(API.SUCCESS, "OK")
+
+
+@jwt_required
+@route.route('/movies/update', methods=['PUT'])
+def upd_movies():
+    """
+    Add movies
+    :return:
+    """
+
+    data = request.get_json()
+    if data is None:
+        return response(API.BAD_REQUEST, "Invalid data")
+
+    # Add the movie to the database
+    if not Movie.update(data["id"], data):
+        return response(API.BAD_REQUEST, "Can't update movie")
+
+    return response(API.SUCCESS, "OK")
+
+
 @route.route('/movies/get', methods=['GET'])
 def get_movies():
     """

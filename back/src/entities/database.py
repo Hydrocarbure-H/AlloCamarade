@@ -57,7 +57,7 @@ class Database:
             self.cursor.close()
             self.connection.close()
 
-    def execute(self, query, params=None, cursorBuffered=True, DEBUG=False):
+    def execute(self, query, params=None, cursorBuffered=True, DEBUG=False, commit=False):
         """
         Execute a query
         :param query: Query
@@ -68,21 +68,24 @@ class Database:
         """
 
         self.connect()
+        result = None
         try:
             if cursorBuffered:
                 self.cursor = self.connection.cursor(buffered=True)
-            self.cursor.execute(query, params)
+            result = self.cursor.execute(query, params)
         except mysql.connector.Error as err:
             server_error("Something went wrong when executing the query: " + str(err), True)
 
-        self.connection.commit()
-        result = None
+        if not commit:
+            self.connection.commit()
+
         if not cursorBuffered:
             result = self.cursor.fetchall()
 
         if DEBUG:
             print(self.cursor.statement)
             print(result)
+
         self.disconnect()
         return result
 

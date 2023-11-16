@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Check if the user is already logged in
+    const token = localStorage.getItem('token');
+    if (token !== null)
+    {
+        // Redirect to the home page
+        window.location.href = 'choose.html';
+    }
     const loginForm = document.getElementById('login-form');
     const errorMessage = document.getElementById('error-message');
 
@@ -34,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         // Store the token in local storage
                         localStorage.setItem('token', data.content);
                         // Redirect to the home page
-                        window.location.href = 'add.html';
+                        window.location.href = 'choose.html';
                     }
                     else
                     {
