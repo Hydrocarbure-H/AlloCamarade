@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterForm = document.getElementById('filter-form');
     const locationField = document.getElementById('location');
 
+    // Check if the user is already logged in
+    const token = localStorage.getItem('token');
+    if (token !== null) {
+        button = document.getElementById('login-button');
+        button.innerText = 'Dashboard';
+    }
     // Fetch and display movies
     function fetchAndDisplayMovies(location) {
         let apiUrl = 'http://127.0.0.1:5000/movies/get';
@@ -98,20 +104,80 @@ document.addEventListener('DOMContentLoaded', function () {
             movieItem.classList.add('movie-item');
 
             movieItem.innerHTML = `
-            <h2>${movie[1]}</h2>
-            <input type="text" id="title" name="title" placeholder="Title" value="${movie[1]}">
-            <input type="text" id="duration" name="duration" placeholder="Duration" value="${movie[2]}">
-            <input type="text" id="language" name="language" placeholder="Language" value="${movie[3]}">
-            <input type="text" id="director" name="director" placeholder="Director" value="${movie[5]}">
-            <input type="text" id="main_actors" name="main_actors" placeholder="Main Actors" value="${movie[6]}">
-            <input type="text" id="min_age" name="min_age" placeholder="Min Age" value="${movie[7]}">
-            <input type="text" id="start_date" name="start_date" placeholder="Start Date" value="${movie[8]}">
-            <input type="text" id="end_date" name="end_date" placeholder="End Date" value="${movie[9]}">
-            <input type="text" id="city" name="city" placeholder="City" value="${movie[10]}">
-            <button id="update" name="update" type="submit">Update</button>
+                <h2>${movie[1]}</h2>
+                <span style="display:none" data-id="${movie[0]}"></span>
+                <input type="text" id="title${movie[0]}" name="title" placeholder="Title" value="${movie[1]}">
+                <input type="text" id="duration${movie[0]}" name="duration" placeholder="Duration" value="${movie[2]}">
+                <input type="text" id="language${movie[0]}" name="language" placeholder="Language" value="${movie[3]}">
+                <input type="text" id="director${movie[0]}" name="director" placeholder="Director" value="${movie[5]}">
+                <input type="text" id="main_actors${movie[0]}" name="main_actors" placeholder="Main Actors" value="${movie[6]}">
+                <input type="text" id="min_age${movie[0]}" name="min_age" placeholder="Min Age" value="${movie[7]}">
+                <input type="text" id="start_date${movie[0]}" name="start_date" placeholder="Start Date" value="${movie[8]}">
+                <input type="text" id="end_date${movie[0]}" name="end_date" placeholder="End Date" value="${movie[9]}">
+                <input type="text" id="city${movie[0]}" name="city" placeholder="City" value="${movie[10]}">
+                <button id="update${movie[0]}" name="update${movie[0]}">Update</button>
             `;
 
             movieListContainer.appendChild(movieItem);
+
+            const updateButton = document.getElementById('update' + movie[0]);
+            updateButton.addEventListener('click',myFunc);
+            updateButton.movieItem = movieItem;
+            updateButton.movie = movie;
         });
     }
 });
+
+function myFunc(event, m) {
+
+    event.preventDefault();
+    m = event.currentTarget.movie;
+
+    const id = event.currentTarget.movieItem.querySelector('span').getAttribute('data-id');
+    const title = document.getElementById('title' + id).value;
+    const duration = document.getElementById('duration' + id).value;
+    const language = document.getElementById('language' + id).value;
+    const director = document.getElementById('director' + id).value;
+    const main_actors = document.getElementById('main_actors' + id).value;
+    const min_age = document.getElementById('min_age' + id).value;
+    const start_date = document.getElementById('start_date' + id).value;
+    const end_date = document.getElementById('end_date' + id).value;
+    const city = document.getElementById('city' + id).value;
+
+    let movie = {
+        id: id,
+        title: title,
+        duration: duration,
+        language: language,
+        subtitles: 'ENG',
+        director: director,
+        actors: main_actors,
+        min_age: min_age,
+        start_date: start_date,
+        end_date: end_date,
+        city: city
+    };
+
+    console.log(movie);
+
+    fetch('http://127.0.0.1:5000/movies/update', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(movie)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.response === 'OK') {
+                // Redirect to list page
+                window.location.href = 'list.html?modify=true&updated=true';
+            } else {
+                alert('Error1:' + data.response);
+            }
+        })
+        .catch(error => {
+                alert('Error2:' + error);
+            }
+        );
+}

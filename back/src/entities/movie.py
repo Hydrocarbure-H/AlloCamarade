@@ -18,7 +18,7 @@ class Movie:
                 d = db.execute_one("SELECT * FROM movies WHERE id = %s", (id,))
             except mysql.connector.Error as err:
                 server_error("Can't get movie : " + str(err), True)
-
+            print(d)
             data = {
                 "title": d[1],
                 "duration": d[2],
@@ -82,7 +82,8 @@ class Movie:
 
         return True
 
-    def update(self):
+    @staticmethod
+    def update(id, data):
         """
         Update the movie in the database
         :return:
@@ -102,17 +103,17 @@ class Movie:
                 "`end_date` = %s,"
                 "`theater` = %s "
                 "WHERE `id` = %s"
-                , (self.title,
-                   self.duration,
-                   self.language,
-                   self.subtitles,
-                   self.director,
-                   self.actors,
-                   self.min_age,
-                   self.start_date,
-                   self.end_date,
-                   self.theater,
-                   self.id))
+                , (data["title"],
+                   data["duration"],
+                   data["language"],
+                   data["subtitles"],
+                   data["director"],
+                   data["actors"],
+                   data["min_age"],
+                   data["start_date"],
+                   data["end_date"],
+                   1,
+                   id))
         except mysql.connector.Error as err:
             server_error("Can't update movie : " + str(err), True)
             return False
@@ -143,11 +144,12 @@ class Movie:
 
         if location is None:
             try:
-                res = db.execute("SELECT theaters.id, movies.title, movies.duration, movies.language, "
+                res = db.execute("SELECT movies.id, movies.title, movies.duration, movies.language, "
                                  "movies.subtitles,"
                                  "movies.director, movies.actors, movies.min_age, movies.start_date, movies.end_date, "
                                  "theaters.location "
-                                 "FROM movies INNER JOIN theaters ON movies.theater = theaters.id", cursorBuffered=False, commit=True)
+                                 "FROM movies INNER JOIN theaters ON movies.theater = theaters.id",
+                                 cursorBuffered=False, commit=True)
             except mysql.connector.Error as err:
                 server_error("Can't get movies : " + str(err), True)
                 return False

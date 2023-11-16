@@ -61,8 +61,7 @@ def upd_movies():
         return response(API.BAD_REQUEST, "Invalid data")
 
     # Add the movie to the database
-    movie = Movie(id=data["id"], data=data)
-    if not movie.update():
+    if not Movie.update(data["id"], data):
         return response(API.BAD_REQUEST, "Can't update movie")
 
     return response(API.SUCCESS, "OK")
