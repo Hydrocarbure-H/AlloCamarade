@@ -72,9 +72,7 @@ class Database:
         try:
             if cursorBuffered:
                 self.cursor = self.connection.cursor(buffered=True)
-            print("Here1")
             result = self.cursor.execute(query, params)
-            print("Here2")
         except mysql.connector.Error as err:
             server_error("Something went wrong when executing the query: " + str(err), True)
 
@@ -82,7 +80,6 @@ class Database:
             self.connection.commit()
 
         if not cursorBuffered:
-            print("Not buffered")
             result = self.cursor.fetchall()
 
         if DEBUG:
