@@ -83,6 +83,7 @@ class Database:
         if DEBUG:
             print(self.cursor.statement)
             print(result)
+
         self.disconnect()
         return result
 
